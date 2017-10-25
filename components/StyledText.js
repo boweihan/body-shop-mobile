@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text } from 'react-native';
+import PropTypes from 'prop-types';
 
 class MonoText extends React.Component {
     render() {
@@ -11,5 +12,9 @@ class MonoText extends React.Component {
         );
     }
 }
+
+MonoText.propTypes = {
+    style: PropTypes.number,
+};
 
 export default MonoText;
