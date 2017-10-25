@@ -13,6 +13,7 @@ import TestScreen from '../screens/mdo/TestScreen';
 
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
 
+// Sample App
 const RootStackNavigator = StackNavigator({
     Home: { screen: LoginScreen },
     PropertyList: { screen: PropertyListScreen },
@@ -24,6 +25,7 @@ const RootStackNavigator = StackNavigator({
     Test: { screen: TestScreen },
 }, { headerMode: 'screen' });
 
+// Main App
 // const RootStackNavigator = StackNavigator(
 //     {
 //         Main: {
