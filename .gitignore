@@ -1,2 +1,4 @@
 node_modules/**/*
 .expo/**/*
+__snapshots__
+*/**/__snapshots__
