@@ -3,7 +3,9 @@ import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 import PropTypes from 'prop-types';
+import { Provider } from 'react-redux';
 import RootNavigation from './navigation/RootNavigation';
+import ConfigureStore from './redux/store';
 
 class App extends React.Component {
     state = {
@@ -46,11 +48,14 @@ class App extends React.Component {
             );
         }
         return (
-            <View style={styles.container}>
-                {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-                {Platform.OS === 'android' && <View style={styles.statusBarUnderlay} />}
-                <RootNavigation />
-            </View>
+            // Set the initial state as an empty object for now
+            <Provider store={ConfigureStore({})}>
+                <View style={styles.container}>
+                    {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+                    {Platform.OS === 'android' && <View style={styles.statusBarUnderlay} />}
+                    <RootNavigation />
+                </View>
+            </Provider>
         );
     }
 }

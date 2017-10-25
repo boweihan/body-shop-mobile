@@ -11,7 +11,7 @@ import LocationListScreen from '../screens/mdo/LocationListScreen';
 import LocationDetailScreen from '../screens/mdo/LocationDetailScreen';
 import TestScreen from '../screens/mdo/TestScreen';
 
-import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
+import registerForPushNotificationsAsync from '../libs/registerForPushNotificationsAsync';
 
 // Sample App
 const RootStackNavigator = StackNavigator({
@@ -54,7 +54,7 @@ export default class RootNavigator extends React.Component {
         // Send our push token over to our backend so we can receive notifications
         // You can comment the following line out if you want to stop receiving
         // a notification every time you open the app. Check out the source
-        // for this function in api/registerForPushNotificationsAsync.js
+        // for this function in libs/registerForPushNotificationsAsync.js
         registerForPushNotificationsAsync();
 
         // Watch for incoming notifications
