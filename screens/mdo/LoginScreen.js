@@ -16,6 +16,13 @@ import {
 import Button from 'react-native-button';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+// const firebaseConfig = {
+//     apiKey: 'AIzaSyBMy-iq7UMjm3ECbb8qJqH9RnXkTYuG6dE',
+//     authDomain: 'hullmark-6637a.firebaseapp.com',
+//     databaseURL: 'https://hullmark-6637a.firebaseio.com',
+//     storageBucket: 'hullmark-6637a.appspot.com',
+// };
+
 const firebaseConfig = {
     apiKey: 'AIzaSyBMy-iq7UMjm3ECbb8qJqH9RnXkTYuG6dE',
     authDomain: 'hullmark-6637a.firebaseapp.com',
@@ -40,8 +47,10 @@ export default class Login extends Component {
         var firebase = firebaseApp;
         var email = this.state.email;
         var password = this.state.password;
-        email = 'kmikedo@gmail.com';
-        password = 'Mike123';
+        // email = 'kmikedo@gmail.com';
+        // password = 'Mike123';
+        email = "bowei.han100@gmail.com";
+        password = "password";
         if (email == null || email.length == 0) {
             alert('Email required');
         } else if (password == null || password.length == 0) {

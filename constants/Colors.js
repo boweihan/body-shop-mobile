@@ -1,15 +1,14 @@
 /* For consistency, all colors should go in this file */
-const tintColor = '#2f95dc';
+const red1 = '#CA2945';
+const white1 = 'white';
+const gray1 = 'gray';
+const blue1 = 'blue';
+const green1 = 'green';
 
 export default {
-    tintColor,
-    tabIconDefault: '#ccc',
-    tabIconSelected: tintColor,
-    tabBar: '#fefefe',
-    errorBackground: 'red',
-    errorText: '#fff',
-    warningBackground: '#EAEB5E',
-    warningText: '#666804',
-    noticeBackground: tintColor,
-    noticeText: '#fff',
+    red1,
+    white1,
+    gray1,
+    blue1,
+    green1,
 };

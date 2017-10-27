@@ -2,44 +2,22 @@ import { Notifications } from 'expo';
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
 // import MainTabNavigator from './MainTabNavigator';
-import LoginScreen from '../screens/mdo/LoginScreen';
-import ReportListScreen from '../screens/mdo/ReportListScreen';
-import ReportScreen from '../screens/mdo/ReportScreen';
-import ReportDetailScreen from '../screens/mdo/ReportDetailScreen';
-import PropertyListScreen from '../screens/mdo/PropertyListScreen';
-import LocationListScreen from '../screens/mdo/LocationListScreen';
-import LocationDetailScreen from '../screens/mdo/LocationDetailScreen';
-import TestScreen from '../screens/mdo/TestScreen';
+import LoginScreen from '../screens/LoginScreen';
+import JobListScreen from '../screens/JobListScreen';
+import JobDetailScreen from '../screens/JobDetailScreen';
+import UploadScreen from '../screens/UploadScreen';
+import BidDetailScreen from '../screens/BidDetailScreen';
 
 import registerForPushNotificationsAsync from '../libs/registerForPushNotificationsAsync';
 
-// Sample App
+// Main App
 const RootStackNavigator = StackNavigator({
     Home: { screen: LoginScreen },
-    PropertyList: { screen: PropertyListScreen },
-    ReportList: { screen: ReportListScreen },
-    Report: { screen: ReportScreen },
-    ReportDetail: { screen: ReportDetailScreen },
-    LocationList: { screen: LocationListScreen },
-    LocationDetail: { screen: LocationDetailScreen },
-    Test: { screen: TestScreen },
+    JobList: { screen: JobListScreen },
+    // JobDetail: { screen: JobDetailScreen },
+    // Upload: { screen: UploadScreen },
+    // BidDetail: { screen: BidDetailScreen },
 }, { headerMode: 'screen' });
-
-// Main App
-// const RootStackNavigator = StackNavigator(
-//     {
-//         Main: {
-//             screen: MainTabNavigator,
-//         },
-//     },
-//     {
-//         navigationOptions: () => ({
-//             headerTitleStyle: {
-//                 fontWeight: 'normal',
-//             },
-//         }),
-//     },
-// );
 
 export default class RootNavigator extends React.Component {
     componentDidMount() {
