@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
+import NavBar from '../components/NavBar';
 
 export default class JobList extends Component {
     render() {
@@ -56,13 +57,16 @@ export default class JobList extends Component {
             </View>
         );
         return (
-            <ScrollView>
-                {jobListView}
-                {jobListView}
-                {jobListView}
-                {jobListView}
-            </ScrollView>
-        )
+            <View>
+                <NavBar title="Job List" navigation={this.props.navigation} />
+                <ScrollView>
+                    {jobListView}
+                    {jobListView}
+                    {jobListView}
+                    {jobListView}
+                </ScrollView>
+            </View>
+        );
     }
 }
 

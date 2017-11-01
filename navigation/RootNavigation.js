@@ -16,7 +16,7 @@ const RootStackNavigator = StackNavigator({
     JobDetail: { screen: JobDetailScreen },
     Upload: { screen: UploadScreen },
     BidDetail: { screen: BidDetailScreen },
-}, { headerMode: 'screen' });
+}, { headerMode: 'none' });
 
 export default class RootNavigator extends React.Component {
     componentDidMount() {
