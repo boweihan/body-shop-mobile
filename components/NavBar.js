@@ -33,6 +33,8 @@ class NavBar extends React.Component {
             title: this.props.title,
             style: {
                 color: Colors.white1,
+                fontFamily: 'os extra bold',
+                fontSize: 20,
             },
         };
         return (
@@ -49,16 +51,16 @@ class NavBar extends React.Component {
                 >
                     <View style={styles.modal}>
                         <TouchableHighlight style={styles.modal_item} onPress={() => this._navigate('Home')}>
-                            <Text style={styles.modal_item_text}>Home</Text>
+                            <Text style={styles.modal_item_text}>HOME</Text>
                         </TouchableHighlight>
                         <TouchableHighlight style={styles.modal_item} onPress={() => this._navigate('JobList')}>
-                            <Text style={styles.modal_item_text}>Jobs</Text>
+                            <Text style={styles.modal_item_text}>JOBS</Text>
                         </TouchableHighlight>
                         <TouchableHighlight style={styles.modal_item} onPress={() => this._navigate('Home')}>
-                            <Text style={styles.modal_item_text}>Logout</Text>
+                            <Text style={styles.modal_item_text}>LOGOUT</Text>
                         </TouchableHighlight>
                         <TouchableHighlight style={styles.cancel} onPress={() => this.setState({ visible: !this.state.visible })}>
-                            <Text style={styles.cancel_text}>Cancel</Text>
+                            <Text style={styles.cancel_text}>CANCEL</Text>
                         </TouchableHighlight>
                     </View>
                 </Modal>
@@ -91,14 +93,16 @@ const styles = {
     cancel_text: {
         color: Colors.white1,
         textAlign: 'center',
-        fontWeight: '600',
         lineHeight: 40,
+        fontSize: 16,
+        fontFamily: 'os extra bold',
     },
     modal_item_text: {
         color: Colors.white1,
         textAlign: 'center',
-        fontWeight: '600',
         lineHeight: 60,
+        fontSize: 16,
+        fontFamily: 'os extra bold',
     },
     hamburger: {
         fontSize: 30,

@@ -8,6 +8,7 @@ import {
     Text,
 } from 'react-native';
 import Colors from '../constants/Colors';
+import Layout from '../constants/Layout';
 
 const firebaseConfig = {
     apiKey: 'AIzaSyCObkyhfqQMdrX9ksfDL0oR9tvy1WfNJFk',
@@ -43,7 +44,7 @@ export default class Login extends Component {
                     accessibilityLabel="Login Button"
                 >
                     <Text style={styles.login_button_text}>
-                        Login
+                        Begin Demo
                     </Text>
                 </TouchableHighlight>
             </View>
@@ -56,18 +57,18 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: Colors.white1,
+        backgroundColor: Colors.red1,
     },
     login_button: {
-        backgroundColor: Colors.red1,
-        width: '100%',
+        backgroundColor: Colors.white1,
+        width: Layout.window.width,
         padding: 20,
     },
     login_button_text: {
         textAlign: 'center',
-        color: Colors.white1,
-        fontWeight: 'bold',
+        color: Colors.red1,
         fontSize: 20,
+        fontFamily: 'os extra bold',
     },
 });
 

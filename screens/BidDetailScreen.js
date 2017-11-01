@@ -9,11 +9,13 @@ import {
 } from 'react-native';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
+import NavBar from '../components/NavBar';
 
 export default class BidDetail extends Component {
     render() {
         return (
             <View style={styles.bidDetail}>
+                <NavBar title="Bid Detail" navigation={this.props.navigation} />
                 <View style={styles.bidDetail_images}>
                     
                 </View>

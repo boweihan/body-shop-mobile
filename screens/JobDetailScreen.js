@@ -9,11 +9,13 @@ import {
 } from 'react-native';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
+import NavBar from '../components/NavBar';
 
 export default class JobDetail extends Component {
     render() {
         return (
             <View style={styles.jobDetail}>
+                <NavBar title="Job Detail" navigation={this.props.navigation} />
                 <View style={styles.jobDetail_images}>
                     
                 </View>

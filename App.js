@@ -21,9 +21,11 @@ class App extends React.Component {
             Font.loadAsync([
                 // This is the font that we are using for our tab bar
                 Ionicons.font,
-                // We include SpaceMono because we use it in HomeScreen.js. Feel free
-                // to remove this if you are not using it in your app
-                { 'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf') },
+                { 'os bold': require('./assets/fonts/OpenSans-Bold.ttf') },
+                { 'os extra bold': require('./assets/fonts/OpenSans-ExtraBold.ttf') },
+                { 'os semi bold': require('./assets/fonts/OpenSans-SemiBold.ttf') },
+                { os: require('./assets/fonts/OpenSans-Regular.ttf') },
+                { 'os light': require('./assets/fonts/OpenSans-Light.ttf') },
             ]),
         ]);
 
