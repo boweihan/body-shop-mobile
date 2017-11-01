@@ -43,6 +43,7 @@ class NavBar extends React.Component {
                     containerStyle={styles.navBar_container}
                     title={titleConfig}
                     leftButton={leftButtonConfig}
+                    rightButton={this.props.rightButton}
                 />
                 <Modal
                     visible={this.state.visible}
@@ -115,6 +116,7 @@ const styles = {
 NavBar.propTypes = {
     title: PropTypes.string.isRequired,
     navigation: PropTypes.object.isRequired,
+    rightButton: PropTypes.object,
 };
 
 export default NavBar;

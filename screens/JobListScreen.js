@@ -8,6 +8,7 @@ import {
     Text,
     ScrollView,
 } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
 import NavBar from '../components/NavBar';
@@ -42,23 +43,27 @@ export default class JobList extends Component {
                             VIEW BID
                         </Text>
                     </TouchableHighlight>
-                    <TouchableHighlight
-                        underlayColor={Colors.red1}
-                        activeOpacity={0.5}
-                        style={styles.jobList_item_tag_button}
-                        onPress={() => this.props.navigation.navigate('Upload')}
-                        accessibilityLabel="Contact Button"
-                    >
-                        <Text style={styles.jobList_item_tag_button_text}>
-                            UPLOAD SOMETHING
-                        </Text>
-                    </TouchableHighlight>
                 </View>
             </View>
         );
         return (
             <View>
-                <NavBar title="Job List" navigation={this.props.navigation} />
+                <NavBar
+                    title="Job List"
+                    navigation={this.props.navigation}
+                    rightButton={
+                        <TouchableHighlight
+                            underlayColor={Colors.red1}
+                            activeOpacity={0.5}
+                            onPress={() => this.props.navigation.navigate('Upload')}
+                        >
+                            <FontAwesome
+                                name="plus"
+                                style={styles.plus}
+                            />
+                        </TouchableHighlight>
+                    }
+                />
                 <ScrollView>
                     {jobListView}
                     {jobListView}
@@ -116,6 +121,12 @@ const styles = StyleSheet.create({
         borderTopColor: Colors.gray2,
         alignSelf: 'flex-end',
         height: 60,
+    },
+    plus: {
+        fontSize: 30,
+        marginTop: 5,
+        color: Colors.white1,
+        marginRight: 20,
     },
 });
 

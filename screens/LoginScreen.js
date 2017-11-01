@@ -44,7 +44,7 @@ export default class Login extends Component {
                     accessibilityLabel="Login Button"
                 >
                     <Text style={styles.login_button_text}>
-                        Begin Demo
+                        Enter
                     </Text>
                 </TouchableHighlight>
             </View>
