@@ -9,36 +9,88 @@ import {
     TextInput,
 } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
+import { Permissions } from 'expo';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
 import NavBar from '../components/NavBar';
+import Camera from '../components/Camera';
 
 export default class UploadForm extends Component {
     state = {
-        firstName: '',
-        lastName: '',
-        email: '',
-        location: '',
-        model: '',
-        make: '',
-        year: '',
+        hasCameraPermission: null,
+        cameraActive: false,
+        pictures: [],
+        form: {
+            firstName: '',
+            lastName: '',
+            email: '',
+            location: '',
+            model: '',
+            make: '',
+            year: '',
+        },
+    }
+
+    async componentWillMount() {
+        const { status } = await Permissions.askAsync(Permissions.CAMERA);
+        this.setState({ hasCameraPermission: status === 'granted' });
     }
 
     handleSubmit = () => {
         this.props.navigation.navigate('Home');
+        const user = firebase.auth().currentUser;
+        const newJobKey = firebase.database().ref().child('jobs').push().key;
+        const updates = {};
+        updates[`/jobs/${newJobKey}`] = this.state;
+        updates[`/users/${user.uid}/jobs/${newJobKey}`] = this.state.form;
+        firebase.database().ref().update(updates).done(() => {
+            this.props.navigation.navigate('JobList');
+        });
+    }
+
+    _isDisabled = () => {
+        const values = Object.values(this.state);
+        for (let i = 0; i < values.length; i += 1) {
+            if (!values[i]) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    addPicture = (blob) => {
+        const { pictures } = this.state;
+        pictures.push(blob);
+        this.setState({ pictures });
     }
 
     render() {
-        return (
+        const disabled = this._isDisabled();
+        const { hasCameraPermission, cameraActive } = this.state;
+        return cameraActive ?
+            <Camera addPicture={this.addPicture} /> :
             <View style={styles.uploadForm}>
                 <NavBar title="Post Job" navigation={this.props.navigation} />
                 <View style={styles.uploadForm_images}>
                     <View style={{ flex: 1 }} />
                     <View style={styles.uploadForm_image}>
-                        <FontAwesome
-                            name="camera"
-                            style={styles.camera}
-                        />
+                        {hasCameraPermission ?
+                            <TouchableHighlight
+                                underlayColor={Colors.red1}
+                                activeOpacity={0.5}
+                                onPress={() => this.setState({ cameraActive: !cameraActive })}
+                            >
+                                <FontAwesome
+                                    name="camera"
+                                    style={styles.camera}
+                                />
+                            </TouchableHighlight>
+                            :
+                            <FontAwesome
+                                name="remove"
+                                style={styles.camera}
+                            />
+                        }
                     </View>
                     <View style={{ flex: 1 }} />
                 </View>
@@ -46,60 +98,61 @@ export default class UploadForm extends Component {
                     <View style={styles.uploadForm_form_cell}>
                         <TextInput
                             style={styles.uploadForm_form_cellText}
-                            onChangeText={firstName => this.setState({ firstName })}
-                            value={this.state.firstName}
+                            onChangeText={firstName => this.setState({ form: { firstName } })}
+                            value={this.state.form.firstName}
                             placeholder="First Name"
                         />
                         <TextInput
                             style={styles.uploadForm_form_cellText}
-                            onChangeText={lastName => this.setState({ lastName })}
-                            value={this.state.lastName}
+                            onChangeText={lastName => this.setState({ form: { lastName } })}
+                            value={this.state.form.lastName}
                             placeholder="Last Name"
                         />
                     </View>
                     <View style={styles.uploadForm_form_cell}>
                         <TextInput
                             style={styles.uploadForm_form_cellText}
-                            onChangeText={email => this.setState({ email })}
-                            value={this.state.email}
+                            onChangeText={email => this.setState({ form: { email } })}
+                            value={this.state.form.email}
                             placeholder="Email"
                         />
                     </View>
                     <View style={styles.uploadForm_form_cell}>
                         <TextInput
                             style={styles.uploadForm_form_cellText}
-                            onChangeText={location => this.setState({ location })}
-                            value={this.state.location}
+                            onChangeText={location => this.setState({ form: { location } })}
+                            value={this.state.form.location}
                             placeholder="Location"
                         />
                     </View>
                     <View style={styles.uploadForm_form_cell}>
                         <TextInput
                             style={styles.uploadForm_form_cellText}
-                            onChangeText={make => this.setState({ make })}
-                            value={this.state.make}
+                            onChangeText={make => this.setState({ form: { make } })}
+                            value={this.state.form.make}
                             placeholder="Vehicle Make"
                         />
                     </View>
                     <View style={styles.uploadForm_form_cell}>
                         <TextInput
                             style={styles.uploadForm_form_cellText}
-                            onChangeText={model => this.setState({ model })}
-                            value={this.state.model}
+                            onChangeText={model => this.setState({ form: { model } })}
+                            value={this.state.form.model}
                             placeholder="Model"
                         />
                         <TextInput
                             style={styles.uploadForm_form_cellText}
-                            onChangeText={year => this.setState({ year })}
-                            value={this.state.year}
+                            onChangeText={year => this.setState({ form: { year } })}
+                            value={this.state.form.year}
                             placeholder="Year"
                         />
                     </View>
                 </View>
                 <TouchableHighlight
+                    disabled={disabled}
                     underlayColor={Colors.red1}
                     activeOpacity={0.5}
-                    style={styles.uploadForm_button}
+                    style={disabled ? styles.uploadForm_button_disabled : styles.uploadForm_button}
                     onPress={() => this.handleSubmit()}
                     accessibilityLabel="accept the bid and begin process"
                 >
@@ -107,8 +160,7 @@ export default class UploadForm extends Component {
                         Submit
                     </Text>
                 </TouchableHighlight>
-            </View>
-        );
+            </View>;
     }
 }
 
@@ -155,6 +207,12 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.red1,
         width: Layout.window.width,
         height: 60,
+    },
+    uploadForm_button_disabled: {
+        backgroundColor: Colors.red1,
+        width: Layout.window.width,
+        height: 60,
+        opacity: 0.5,
     },
     uploadForm_buttonText: {
         textAlign: 'center',
