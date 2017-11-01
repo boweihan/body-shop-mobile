@@ -1,7 +1,6 @@
 import { Notifications } from 'expo';
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
-// import MainTabNavigator from './MainTabNavigator';
 import LoginScreen from '../screens/LoginScreen';
 import JobListScreen from '../screens/JobListScreen';
 import JobDetailScreen from '../screens/JobDetailScreen';
@@ -14,9 +13,9 @@ import registerForPushNotificationsAsync from '../libs/registerForPushNotificati
 const RootStackNavigator = StackNavigator({
     Home: { screen: LoginScreen },
     JobList: { screen: JobListScreen },
-    // JobDetail: { screen: JobDetailScreen },
-    // Upload: { screen: UploadScreen },
-    // BidDetail: { screen: BidDetailScreen },
+    JobDetail: { screen: JobDetailScreen },
+    Upload: { screen: UploadScreen },
+    BidDetail: { screen: BidDetailScreen },
 }, { headerMode: 'screen' });
 
 export default class RootNavigator extends React.Component {

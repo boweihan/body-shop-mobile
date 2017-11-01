@@ -6,28 +6,26 @@ import {
     View,
     TouchableHighlight,
     Text,
+    ScrollView,
 } from 'react-native';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
 
 export default class JobList extends Component {
-    navigate = () => {
-        this.props.navigation.navigate('Home');
-    }
-
     render() {
-        return (
+        const jobListView = (
             <View>
                 <View style={styles.jobList_item}>
+                    <View style={styles.jobList_placeholder} />
                     <TouchableHighlight
-                        underlayColor={Colors.red1}
+                        underlayColor={Colors.white1}
                         activeOpacity={0.5}
                         style={styles.jobList_item_button}
-                        onPress={this.navigate}
+                        onPress={() => this.props.navigation.navigate('JobDetail')}
                         accessibilityLabel="Contact Button"
                     >
                         <Text style={styles.jobList_item_button_text}>
-                            View Job
+                            VIEW JOB
                         </Text>
                     </TouchableHighlight>
                 </View>
@@ -36,53 +34,84 @@ export default class JobList extends Component {
                         underlayColor={Colors.red1}
                         activeOpacity={0.5}
                         style={styles.jobList_item_tag_button}
-                        onPress={this.navigate}
+                        onPress={() => this.props.navigation.navigate('BidDetail')}
                         accessibilityLabel="Contact Button"
                     >
                         <Text style={styles.jobList_item_tag_button_text}>
-                            View Bid
+                            VIEW BID
+                        </Text>
+                    </TouchableHighlight>
+                    <TouchableHighlight
+                        underlayColor={Colors.red1}
+                        activeOpacity={0.5}
+                        style={styles.jobList_item_tag_button}
+                        onPress={() => this.props.navigation.navigate('Upload')}
+                        accessibilityLabel="Contact Button"
+                    >
+                        <Text style={styles.jobList_item_tag_button_text}>
+                            UPLOAD SOMETHING
                         </Text>
                     </TouchableHighlight>
                 </View>
             </View>
         );
+        return (
+            <ScrollView>
+                {jobListView}
+                {jobListView}
+                {jobListView}
+                {jobListView}
+            </ScrollView>
+        )
     }
 }
 
 const styles = StyleSheet.create({
     jobList_item: {
         width: Layout.window.width,
-        height: Layout.window.height * 0.4,
-        backgroundColor: Colors.red1,
+        height: Layout.window.height * 0.3,
+        backgroundColor: Colors.white1,
         justifyContent: 'flex-end',
+        flexDirection: 'row',
+    },
+    jobList_item_button: {
+        flex: 1,
+        height: 60,
+        backgroundColor: Colors.red1,
+        borderTopWidth: 0.5,
+        borderTopColor: Colors.gray2,
+        alignSelf: 'flex-end',
+        borderTopLeftRadius: 30,
+    },
+    jobList_item_button_text: {
+        lineHeight: 60,
+        alignSelf: 'center',
+        color: Colors.white1,
+        fontWeight: '600',
     },
     jobList_item_tag: {
         width: Layout.window.width,
-        height: Layout.window.height * 0.1,
-        backgroundColor: Colors.gray1,
-        justifyContent: 'flex-end',
-    },
-    jobList_item_button: {
-        width: Layout.window.width * 0.5,
-        backgroundColor: Colors.blue1,
-        alignSelf: 'flex-end',
     },
     jobList_item_tag_button: {
-        width: Layout.window.width * 0.5,
-        backgroundColor: Colors.green1,
+        flex: 1,
+        height: 40,
+        width: Layout.window.width - 10,
+        backgroundColor: Colors.black1,
+        margin: 5,
         alignSelf: 'flex-end',
     },
-    jobList_item_button_text: {
-        textAlign: 'center',
-        color: Colors.white1,
-        fontWeight: 'bold',
-        fontSize: 20,
-    },
     jobList_item_tag_button_text: {
-        textAlign: 'center',
+        alignSelf: 'center',
         color: Colors.white1,
-        fontWeight: 'bold',
-        fontSize: 20,
+        fontWeight: '600',
+        lineHeight: 40,
+    },
+    jobList_placeholder: {
+        flex: 2,
+        borderTopWidth: 0.5,
+        borderTopColor: Colors.gray2,
+        alignSelf: 'flex-end',
+        height: 60,
     },
 });
 
