@@ -9,11 +9,13 @@ import {
     TextInput,
 } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import { Permissions } from 'expo';
+import { Permissions, ImagePicker } from 'expo';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
 import NavBar from '../components/NavBar';
-import Camera from '../components/Camera';
+// import Camera from '../components/Camera';
+import Gallery from '../components/Gallery';
+// import Uploader from '../libs/uploader';
 
 export default class UploadForm extends Component {
     state = {
@@ -41,8 +43,8 @@ export default class UploadForm extends Component {
         const user = firebase.auth().currentUser;
         const newJobKey = firebase.database().ref().child('jobs').push().key;
         const updates = {};
-        updates[`/jobs/${newJobKey}`] = this.state;
-        updates[`/users/${user.uid}/jobs/${newJobKey}`] = this.state.form;
+        updates[`/jobs/${newJobKey}`] = { ...this.state.form, pictures: this.state.pictures };
+        updates[`/users/${user.uid}/jobs/${newJobKey}`] = { ...this.state.form, pictures: this.state.pictures };
         firebase.database().ref().update(updates).done(() => {
             this.props.navigation.navigate('JobList');
         });
@@ -64,11 +66,34 @@ export default class UploadForm extends Component {
         this.setState({ pictures });
     }
 
+    returnToForm = () => {
+        this.setState({ cameraActive: false });
+    }
+
+    _pickImage = async () => {
+        const result = await ImagePicker.launchImageLibraryAsync({
+            allowsEditing: true,
+            aspect: [4, 3],
+            base64: true,
+        });
+
+        console.log(result);
+
+        if (!result.cancelled) {
+            // firebase storage doesn't work at the moment, so we store everything in the db
+            // Uploader.uploadAsByteArray(Uploader.convertToByteArray(result.base64), (progress) => {
+            //     console.log(progress);
+            // });
+            this.addPicture(result.base64);
+        }
+    };
+
     render() {
         const disabled = this._isDisabled();
         const { hasCameraPermission, cameraActive } = this.state;
         return cameraActive ?
-            <Camera addPicture={this.addPicture} /> :
+            // <Camera addPicture={this.addPicture} returnToForm={this.returnToForm} /> :
+            <Gallery addPicture={this.addPicture} returnToForm={this.returnToForm} /> :
             <View style={styles.uploadForm}>
                 <NavBar title="Post Job" navigation={this.props.navigation} />
                 <View style={styles.uploadForm_images}>
@@ -78,7 +103,8 @@ export default class UploadForm extends Component {
                             <TouchableHighlight
                                 underlayColor={Colors.red1}
                                 activeOpacity={0.5}
-                                onPress={() => this.setState({ cameraActive: !cameraActive })}
+                                // onPress={() => this.setState({ cameraActive: true })}
+                                onPress={() => this._pickImage()}
                             >
                                 <FontAwesome
                                     name="camera"

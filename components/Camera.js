@@ -1,5 +1,5 @@
 // https://github.com/expo/camerja/blob/master/App.js
-import { Camera } from 'expo';
+import { Camera, FileSystem } from 'expo';
 import React from 'react';
 import {
     StyleSheet,
@@ -45,7 +45,9 @@ export default class CameraComponent extends React.Component {
     takePicture = async () => {
         if (this.camera) {
             const photo = await this.camera.takePictureAsync();
-            this.props.addPicture(photo);
+            const file = await FileSystem.getInfoAsync(photo.uri);
+            console.log(file);
+            this.props.addPicture(file);
         }
     };
 
@@ -73,6 +75,16 @@ export default class CameraComponent extends React.Component {
                     >
                         <MaterialIcons
                             name="flip-to-front"
+                            style={styles.flipButton_icon}
+                        />
+                    </TouchableOpacity>
+                    <View style={{ flex: 5 }} />
+                    <TouchableOpacity
+                        style={styles.flipButtonRight}
+                        onPress={this.props.returnToForm}
+                    >
+                        <MaterialIcons
+                            name="arrow-back"
                             style={styles.flipButton_icon}
                         />
                     </TouchableOpacity>
@@ -155,17 +167,18 @@ const styles = StyleSheet.create({
         margin: 20,
         backgroundColor: Colors.black1,
     },
+    flipButtonRight: {
+        flex: 1,
+        margin: 20,
+        backgroundColor: Colors.black1,
+    },
     flipButton_icon: {
         fontSize: 30,
         color: Colors.white1,
-    },
-    picButton: {
-    },
-    galleryButton: {
-
     },
 });
 
 CameraComponent.propTypes = {
     addPicture: PropTypes.func.isRequired,
+    returnToForm: PropTypes.func.isRequired,
 };
