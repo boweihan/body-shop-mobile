@@ -8,7 +8,7 @@ import {
     Text,
     ScrollView,
 } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome, Foundation } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
 import NavBar from '../components/NavBar';
@@ -18,20 +18,22 @@ export default class JobList extends Component {
         const jobListView = (
             <View>
                 <View style={styles.jobList_item}>
-                    <View style={styles.jobList_placeholder} />
-                    <TouchableHighlight
-                        underlayColor={Colors.white1}
-                        activeOpacity={0.5}
-                        style={styles.jobList_item_button}
-                        onPress={() => this.props.navigation.navigate('JobDetail')}
-                        accessibilityLabel="Contact Button"
-                    >
-                        <Text style={styles.jobList_item_button_text}>
-                            VIEW JOB
-                        </Text>
-                    </TouchableHighlight>
+                    <View style={styles.jobList_item_bottom}>
+                        <TouchableHighlight
+                            underlayColor={Colors.white1}
+                            activeOpacity={0.5}
+                            style={styles.jobList_item_button}
+                            onPress={() => this.props.navigation.navigate('JobDetail')}
+                            accessibilityLabel="View job details"
+                        >
+                            <Foundation
+                                name="indent-more"
+                                style={styles.jobList_item_button_icon}
+                            />
+                        </TouchableHighlight>
+                    </View>
                 </View>
-                <View style={styles.jobList_item_tag}>
+                {/* <View style={styles.jobList_item_tag}>
                     <TouchableHighlight
                         underlayColor={Colors.red1}
                         activeOpacity={0.5}
@@ -43,13 +45,13 @@ export default class JobList extends Component {
                             VIEW BID
                         </Text>
                     </TouchableHighlight>
-                </View>
+                </View> */}
             </View>
         );
         return (
             <View>
                 <NavBar
-                    title="Job List"
+                    title="My Jobs"
                     navigation={this.props.navigation}
                     rightButton={
                         <TouchableHighlight
@@ -80,23 +82,27 @@ const styles = StyleSheet.create({
         width: Layout.window.width,
         height: Layout.window.height * 0.3,
         backgroundColor: Colors.white1,
-        justifyContent: 'flex-end',
+        flex: 1,
         flexDirection: 'row',
+    },
+    jobList_item_bottom: {
+        flex: 1,
+        alignSelf: 'flex-end',
+        padding: 5,
     },
     jobList_item_button: {
         flex: 1,
-        height: 60,
         backgroundColor: Colors.red1,
-        borderTopWidth: 0.5,
-        borderTopColor: Colors.gray2,
         alignSelf: 'flex-end',
-        borderTopLeftRadius: 30,
+        alignItems: 'center',
+        justifyContent: 'center',
+        opacity: 0.5,
     },
-    jobList_item_button_text: {
-        lineHeight: 60,
-        alignSelf: 'center',
+    jobList_item_button_icon: {
         color: Colors.white1,
-        fontWeight: '600',
+        alignSelf: 'center',
+        padding: 5,
+        fontSize: 30,
     },
     jobList_item_tag: {
         width: Layout.window.width,
@@ -112,7 +118,7 @@ const styles = StyleSheet.create({
     jobList_item_tag_button_text: {
         alignSelf: 'center',
         color: Colors.white1,
-        fontWeight: '600',
+        fontFamily: 'os extra bold',
         lineHeight: 40,
     },
     jobList_placeholder: {
@@ -120,7 +126,7 @@ const styles = StyleSheet.create({
         borderTopWidth: 0.5,
         borderTopColor: Colors.gray2,
         alignSelf: 'flex-end',
-        height: 60,
+        height: 40,
     },
     plus: {
         fontSize: 30,
