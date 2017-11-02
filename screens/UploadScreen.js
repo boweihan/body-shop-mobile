@@ -13,14 +13,10 @@ import { Permissions, ImagePicker } from 'expo';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
 import NavBar from '../components/NavBar';
-// import Camera from '../components/Camera';
-import Gallery from '../components/Gallery';
-// import Uploader from '../libs/uploader';
 
 export default class UploadForm extends Component {
     state = {
         hasCameraPermission: null,
-        cameraActive: false,
         pictures: [],
         form: {
             firstName: '',
@@ -51,7 +47,10 @@ export default class UploadForm extends Component {
     }
 
     _isDisabled = () => {
-        const values = Object.values(this.state);
+        if (this.state.pictures.length < 1) {
+            return true;
+        }
+        const values = Object.values(this.state.form);
         for (let i = 0; i < values.length; i += 1) {
             if (!values[i]) {
                 return true;
@@ -66,8 +65,10 @@ export default class UploadForm extends Component {
         this.setState({ pictures });
     }
 
-    returnToForm = () => {
-        this.setState({ cameraActive: false });
+    updateForm = (partialForm) => {
+        const { form } = this.state;
+        const newForm = Object.assign(form, partialForm);
+        this.setState({ form: newForm });
     }
 
     _pickImage = async () => {
@@ -77,10 +78,9 @@ export default class UploadForm extends Component {
             base64: true,
         });
 
-        console.log(result);
-
         if (!result.cancelled) {
             // firebase storage doesn't work at the moment, so we store everything in the db
+            // We want to use firebase storage as soon as Expo can support blobs
             // Uploader.uploadAsByteArray(Uploader.convertToByteArray(result.base64), (progress) => {
             //     console.log(progress);
             // });
@@ -90,10 +90,8 @@ export default class UploadForm extends Component {
 
     render() {
         const disabled = this._isDisabled();
-        const { hasCameraPermission, cameraActive } = this.state;
-        return cameraActive ?
-            // <Camera addPicture={this.addPicture} returnToForm={this.returnToForm} /> :
-            <Gallery addPicture={this.addPicture} returnToForm={this.returnToForm} /> :
+        const { hasCameraPermission } = this.state;
+        return (
             <View style={styles.uploadForm}>
                 <NavBar title="Post Job" navigation={this.props.navigation} />
                 <View style={styles.uploadForm_images}>
@@ -103,7 +101,6 @@ export default class UploadForm extends Component {
                             <TouchableHighlight
                                 underlayColor={Colors.red1}
                                 activeOpacity={0.5}
-                                // onPress={() => this.setState({ cameraActive: true })}
                                 onPress={() => this._pickImage()}
                             >
                                 <FontAwesome
@@ -124,13 +121,13 @@ export default class UploadForm extends Component {
                     <View style={styles.uploadForm_form_cell}>
                         <TextInput
                             style={styles.uploadForm_form_cellText}
-                            onChangeText={firstName => this.setState({ form: { firstName } })}
+                            onChangeText={firstName => this.updateForm({ firstName })}
                             value={this.state.form.firstName}
                             placeholder="First Name"
                         />
                         <TextInput
                             style={styles.uploadForm_form_cellText}
-                            onChangeText={lastName => this.setState({ form: { lastName } })}
+                            onChangeText={lastName => this.updateForm({ lastName })}
                             value={this.state.form.lastName}
                             placeholder="Last Name"
                         />
@@ -138,7 +135,7 @@ export default class UploadForm extends Component {
                     <View style={styles.uploadForm_form_cell}>
                         <TextInput
                             style={styles.uploadForm_form_cellText}
-                            onChangeText={email => this.setState({ form: { email } })}
+                            onChangeText={email => this.updateForm({ email })}
                             value={this.state.form.email}
                             placeholder="Email"
                         />
@@ -146,7 +143,7 @@ export default class UploadForm extends Component {
                     <View style={styles.uploadForm_form_cell}>
                         <TextInput
                             style={styles.uploadForm_form_cellText}
-                            onChangeText={location => this.setState({ form: { location } })}
+                            onChangeText={location => this.updateForm({ location })}
                             value={this.state.form.location}
                             placeholder="Location"
                         />
@@ -154,7 +151,7 @@ export default class UploadForm extends Component {
                     <View style={styles.uploadForm_form_cell}>
                         <TextInput
                             style={styles.uploadForm_form_cellText}
-                            onChangeText={make => this.setState({ form: { make } })}
+                            onChangeText={make => this.updateForm({ make })}
                             value={this.state.form.make}
                             placeholder="Vehicle Make"
                         />
@@ -162,13 +159,13 @@ export default class UploadForm extends Component {
                     <View style={styles.uploadForm_form_cell}>
                         <TextInput
                             style={styles.uploadForm_form_cellText}
-                            onChangeText={model => this.setState({ form: { model } })}
+                            onChangeText={model => this.updateForm({ model })}
                             value={this.state.form.model}
                             placeholder="Model"
                         />
                         <TextInput
                             style={styles.uploadForm_form_cellText}
-                            onChangeText={year => this.setState({ form: { year } })}
+                            onChangeText={year => this.updateForm({ year })}
                             value={this.state.form.year}
                             placeholder="Year"
                         />
@@ -186,7 +183,8 @@ export default class UploadForm extends Component {
                         Submit
                     </Text>
                 </TouchableHighlight>
-            </View>;
+            </View>
+        );
     }
 }
 

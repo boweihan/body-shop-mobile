@@ -2,7 +2,7 @@ import NavigationBar from 'react-native-navbar';
 import React from 'react';
 import { View, Modal, Text, TouchableHighlight } from 'react-native';
 import PropTypes from 'prop-types';
-import { FontAwesome } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
 
@@ -23,8 +23,8 @@ class NavBar extends React.Component {
                 activeOpacity={0.5}
                 onPress={() => this.setState({ visible: !this.state.visible })}
             >
-                <FontAwesome
-                    name="navicon"
+                <Feather
+                    name="menu"
                     style={styles.hamburger}
                 />
             </TouchableHighlight>
@@ -33,8 +33,8 @@ class NavBar extends React.Component {
             title: this.props.title,
             style: {
                 color: Colors.white1,
-                fontFamily: 'os extra bold',
-                fontSize: 20,
+                fontFamily: 'os bold',
+                fontSize: 16,
             },
         };
         return (

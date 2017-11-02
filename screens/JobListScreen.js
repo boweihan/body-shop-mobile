@@ -5,49 +5,63 @@ import {
     StyleSheet,
     View,
     TouchableHighlight,
-    Text,
+    Image,
     ScrollView,
 } from 'react-native';
-import { FontAwesome, Foundation } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
 import NavBar from '../components/NavBar';
 
 export default class JobList extends Component {
-    render() {
-        const jobListView = (
-            <View>
+    state = {
+        jobs: [],
+    }
+
+    async componentWillMount() {
+        const user = firebase.auth().currentUser;
+        const userJobs = firebase.database().ref(`users/${user.uid}/jobs`);
+        userJobs.on('value', (snapshot) => {
+            const jobs = [];
+            snapshot.forEach((childSnapshot) => {
+                const item = childSnapshot.val();
+                item.key = childSnapshot.key;
+                jobs.push(item);
+            });
+            this.setState({ jobs });
+        });
+    }
+
+    getJobListItem(job, key) {
+        return (
+            <View key={key}>
                 <View style={styles.jobList_item}>
+                    <View style={styles.jobList_item_top}>
+                        <Image
+                            source={{ uri: `data:image/jpg;base64, ${job.pictures[0]}` }}
+                            style={styles.image}
+                        />
+                    </View>
                     <View style={styles.jobList_item_bottom}>
                         <TouchableHighlight
-                            underlayColor={Colors.white1}
+                            underlayColor={Colors.black1}
                             activeOpacity={0.5}
                             style={styles.jobList_item_button}
                             onPress={() => this.props.navigation.navigate('JobDetail')}
                             accessibilityLabel="View job details"
                         >
-                            <Foundation
-                                name="indent-more"
+                            <Feather
+                                name="chevrons-right"
                                 style={styles.jobList_item_button_icon}
                             />
                         </TouchableHighlight>
                     </View>
                 </View>
-                {/* <View style={styles.jobList_item_tag}>
-                    <TouchableHighlight
-                        underlayColor={Colors.red1}
-                        activeOpacity={0.5}
-                        style={styles.jobList_item_tag_button}
-                        onPress={() => this.props.navigation.navigate('BidDetail')}
-                        accessibilityLabel="Contact Button"
-                    >
-                        <Text style={styles.jobList_item_tag_button_text}>
-                            VIEW BID
-                        </Text>
-                    </TouchableHighlight>
-                </View> */}
             </View>
         );
+    }
+
+    render() {
         return (
             <View>
                 <NavBar
@@ -59,18 +73,15 @@ export default class JobList extends Component {
                             activeOpacity={0.5}
                             onPress={() => this.props.navigation.navigate('Upload')}
                         >
-                            <FontAwesome
+                            <Feather
                                 name="plus"
                                 style={styles.plus}
                             />
                         </TouchableHighlight>
                     }
                 />
-                <ScrollView>
-                    {jobListView}
-                    {jobListView}
-                    {jobListView}
-                    {jobListView}
+                <ScrollView style={{ paddingTop: 2 }}>
+                    {this.state.jobs.map((job, key) => this.getJobListItem(job, key))}
                 </ScrollView>
             </View>
         );
@@ -85,41 +96,31 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
     },
+    jobList_item_top: {
+        flex: 7,
+        padding: 2,
+        paddingRight: 0,
+        paddingTop: 0,
+    },
     jobList_item_bottom: {
         flex: 1,
-        alignSelf: 'flex-end',
-        padding: 5,
+        padding: 2,
+        paddingLeft: 0,
+        paddingTop: 0,
     },
     jobList_item_button: {
         flex: 1,
+        width: '100%',
         backgroundColor: Colors.red1,
         alignSelf: 'flex-end',
         alignItems: 'center',
         justifyContent: 'center',
-        opacity: 0.5,
     },
     jobList_item_button_icon: {
         color: Colors.white1,
         alignSelf: 'center',
         padding: 5,
         fontSize: 30,
-    },
-    jobList_item_tag: {
-        width: Layout.window.width,
-    },
-    jobList_item_tag_button: {
-        flex: 1,
-        height: 40,
-        width: Layout.window.width - 10,
-        backgroundColor: Colors.black1,
-        margin: 5,
-        alignSelf: 'flex-end',
-    },
-    jobList_item_tag_button_text: {
-        alignSelf: 'center',
-        color: Colors.white1,
-        fontFamily: 'os extra bold',
-        lineHeight: 40,
     },
     jobList_placeholder: {
         flex: 2,
@@ -133,6 +134,10 @@ const styles = StyleSheet.create({
         marginTop: 5,
         color: Colors.white1,
         marginRight: 20,
+    },
+    image: {
+        width: '100%',
+        height: '100%',
     },
 });
 
