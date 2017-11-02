@@ -7,6 +7,7 @@ import {
     TouchableHighlight,
     Image,
     ScrollView,
+    Text,
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
@@ -34,28 +35,31 @@ export default class JobList extends Component {
 
     getJobListItem(job, key) {
         return (
-            <View key={key}>
+            <View key={key} style={{ padding: 2 }}>
                 <View style={styles.jobList_item}>
-                    <View style={styles.jobList_item_top}>
-                        <Image
-                            source={{ uri: `data:image/jpg;base64, ${job.pictures[0]}` }}
-                            style={styles.image}
-                        />
-                    </View>
-                    <View style={styles.jobList_item_bottom}>
-                        <TouchableHighlight
-                            underlayColor={Colors.black1}
-                            activeOpacity={0.5}
-                            style={styles.jobList_item_button}
-                            onPress={() => this.props.navigation.navigate('JobDetail')}
-                            accessibilityLabel="View job details"
-                        >
-                            <Feather
-                                name="chevrons-right"
-                                style={styles.jobList_item_button_icon}
-                            />
-                        </TouchableHighlight>
-                    </View>
+                    <TouchableHighlight
+                        underlayColor={Colors.black1}
+                        activeOpacity={0.5}
+                        style={styles.jobList_item_top}
+                        onPress={() => this.props.navigation.navigate('JobDetail')}
+                        accessibilityLabel="View job details"
+                    >
+                        <View style={styles.jobList_item_inner}>
+                            <View style={{ flex: 1, alignItems: 'center' }}>
+                                <Image
+                                    source={{ uri: `data:image/jpg;base64, ${job.pictures[0]}` }}
+                                    style={styles.image}
+                                />
+                            </View>
+                            <View style={{ flex: 2, justifyContent: 'center', paddingRight: 20 }}>
+                                <View style={{ flex: 1 }} />{/* placeholder */}
+                                <Text style={[{ flex: 2 }, styles.text1]}>{`${job.firstName} ${job.lastName}`}</Text>
+                                <Text style={[{ flex: 2 }, styles.text2]}>{`${job.year} ${job.make} ${job.model}`}</Text>
+                                <Text style={[{ flex: 2 }, styles.text3]}>{`Bids: 3`}</Text>
+                                <View style={{ flex: 1 }} />{/* placeholder */}
+                            </View>
+                        </View>
+                    </TouchableHighlight>
                 </View>
             </View>
         );
@@ -80,7 +84,7 @@ export default class JobList extends Component {
                         </TouchableHighlight>
                     }
                 />
-                <ScrollView style={{ paddingTop: 2 }}>
+                <ScrollView style={{ paddingTop: 2, minHeight: '100%' }}>
                     {this.state.jobs.map((job, key) => this.getJobListItem(job, key))}
                 </ScrollView>
             </View>
@@ -90,44 +94,19 @@ export default class JobList extends Component {
 
 const styles = StyleSheet.create({
     jobList_item: {
-        width: Layout.window.width,
-        height: Layout.window.height * 0.3,
+        width: Layout.window.width - 4,
+        height: (Layout.window.width - 4) * (1 / 3),
         backgroundColor: Colors.white1,
         flex: 1,
-        flexDirection: 'row',
     },
     jobList_item_top: {
-        flex: 7,
-        padding: 2,
-        paddingRight: 0,
-        paddingTop: 0,
-    },
-    jobList_item_bottom: {
         flex: 1,
-        padding: 2,
-        paddingLeft: 0,
-        paddingTop: 0,
     },
-    jobList_item_button: {
+    jobList_item_inner: {
         flex: 1,
-        width: '100%',
-        backgroundColor: Colors.red1,
-        alignSelf: 'flex-end',
+        flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-    },
-    jobList_item_button_icon: {
-        color: Colors.white1,
-        alignSelf: 'center',
-        padding: 5,
-        fontSize: 30,
-    },
-    jobList_placeholder: {
-        flex: 2,
-        borderTopWidth: 0.5,
-        borderTopColor: Colors.gray2,
-        alignSelf: 'flex-end',
-        height: 40,
     },
     plus: {
         fontSize: 30,
@@ -136,8 +115,23 @@ const styles = StyleSheet.create({
         marginRight: 20,
     },
     image: {
-        width: '100%',
-        height: '100%',
+        width: (Layout.window.width - 4) * (1 / 3) * 0.7,
+        height: (Layout.window.width - 4) * (1 / 3) * 0.7,
+        borderRadius: (Layout.window.width - 4) * (1 / 3) * 0.35,
+    },
+    text1: {
+        fontFamily: 'os bold',
+        fontSize: 20,
+        color: Colors.black2,
+    },
+    text2: {
+        fontFamily: 'os',
+        color: Colors.black2,
+    },
+    text3: {
+        alignSelf: 'flex-end',
+        fontFamily: 'os bold',
+        color: Colors.red1,
     },
 });
 
