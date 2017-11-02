@@ -7,6 +7,7 @@ import {
     TouchableHighlight,
     Text,
 } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
 
@@ -43,10 +44,13 @@ export default class Login extends Component {
                     onPress={this.login}
                     accessibilityLabel="Login Button"
                 >
-                    <Text style={styles.login_button_text}>
-                        Enter
-                    </Text>
+                    <MaterialCommunityIcons
+                        name="car-estate"
+                        style={styles.login_icon}
+                    />
                 </TouchableHighlight>
+                <View style={styles.outerCircle1} />
+                <View style={styles.outerCircle2} />
             </View>
         );
     }
@@ -60,15 +64,36 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.red1,
     },
     login_button: {
+        position: 'absolute',
         backgroundColor: Colors.white1,
-        width: Layout.window.width,
-        padding: 20,
+        width: Layout.window.height * 0.3,
+        height: Layout.window.height * 0.3,
+        borderRadius: Layout.window.height * 0.3,
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 3,
     },
-    login_button_text: {
-        textAlign: 'center',
+    outerCircle1: {
+        position: 'absolute',
+        backgroundColor: Colors.white1,
+        width: Layout.window.height * 0.4,
+        height: Layout.window.height * 0.4,
+        borderRadius: Layout.window.height * 0.4,
+        zIndex: 2,
+        opacity: 0.5,
+    },
+    outerCircle2: {
+        position: 'absolute',
+        backgroundColor: Colors.white1,
+        width: Layout.window.height * 0.5,
+        height: Layout.window.height * 0.5,
+        borderRadius: Layout.window.height * 0.5,
+        zIndex: 1,
+        opacity: 0.2,
+    },
+    login_icon: {
+        fontSize: 50,
         color: Colors.red1,
-        fontSize: 20,
-        fontFamily: 'os extra bold',
     },
 });
 

@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: Colors.white1,
         lineHeight: 60,
-        fontFamily: 'os extra bold',
+        fontFamily: 'os bold',
         fontSize: 16,
     },
 });
