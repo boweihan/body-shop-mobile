@@ -8,7 +8,7 @@ import {
     Text,
     TextInput,
 } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome, Feather } from '@expo/vector-icons';
 import { Permissions, ImagePicker } from 'expo';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
@@ -36,7 +36,6 @@ export default class UploadForm extends Component {
     }
 
     handleSubmit = () => {
-        this.props.navigation.navigate('Home');
         const user = firebase.auth().currentUser;
         const newJobKey = firebase.database().ref().child('jobs').push().key;
         const updates = {};
@@ -94,7 +93,22 @@ export default class UploadForm extends Component {
         const { hasCameraPermission } = this.state;
         return (
             <View style={styles.uploadForm}>
-                <NavBar title="Post Job" navigation={this.props.navigation} />
+                <NavBar
+                    title="Post Job"
+                    navigation={this.props.navigation}
+                    rightButton={
+                        <TouchableHighlight
+                            underlayColor={Colors.red1}
+                            activeOpacity={0.5}
+                            onPress={() => this.props.navigation.navigate('JobList')}
+                        >
+                            <Feather
+                                name="chevrons-left"
+                                style={styles.back}
+                            />
+                        </TouchableHighlight>
+                    }
+                />
                 <View style={styles.uploadForm_images}>
                     <View style={{ flex: 1 }} />
                     {this.state.pictures.length > 0 ?
@@ -266,6 +280,12 @@ const styles = StyleSheet.create({
         lineHeight: 60,
         fontFamily: 'os bold',
         fontSize: 16,
+    },
+    back: {
+        fontSize: 30,
+        marginTop: 5,
+        color: Colors.white1,
+        marginRight: 20,
     },
 });
 

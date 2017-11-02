@@ -1,3 +1,4 @@
+import * as firebase from 'firebase';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -5,19 +6,66 @@ import {
     View,
     TouchableHighlight,
     Text,
+    Alert,
 } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons, Feather } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
-import Layout from '../constants/Layout';
 import NavBar from '../components/NavBar';
 import Carousel from '../components/Carousel';
 
 export default class JobDetail extends Component {
+    static unsupported() {
+        Alert.alert(
+            'Edit Job',
+            'Sorry, this functionality is not supported at the moment',
+            [
+                { text: 'OK', onPress: () => {} },
+            ],
+            { cancelable: false },
+        );
+    }
+
+    handleDelete(job) {
+        const deleteJob = () => {
+            const user = firebase.auth().currentUser;
+            const updates = {};
+            updates[`/jobs/${job.key}`] = null;
+            updates[`/users/${user.uid}/jobs/${job.key}`] = null;
+            firebase.database().ref().update(updates).done(() => {
+                this.props.navigation.navigate('JobList');
+            });
+        };
+        Alert.alert(
+            'Delete Job',
+            'Are you sure you want to delete your job? Bids will be lost',
+            [
+                { text: 'Cancel', onPress: () => {}, style: 'cancel' },
+                { text: 'OK', onPress: () => deleteJob() },
+            ],
+            { cancelable: false },
+        );
+    }
+
     render() {
         const { job } = this.props.navigation.state.params;
         return (
             <View style={styles.jobDetail}>
-                <NavBar title="Job Detail" navigation={this.props.navigation} />
+                <NavBar
+                    title="Job Detail"
+                    navigation={this.props.navigation}
+                    rightButton={
+                        <TouchableHighlight
+                            underlayColor={Colors.red1}
+                            activeOpacity={0.5}
+                            onPress={() => this.props.navigation.navigate('JobList')}
+                        >
+                            <Feather
+                                name="chevrons-left"
+                                style={styles.back}
+                            />
+                        </TouchableHighlight>
+                    }
+                />
                 <View style={styles.jobDetail_images}>
                     <Carousel images={job.pictures} />
                 </View>
@@ -52,17 +100,30 @@ export default class JobDetail extends Component {
                         </View>
                     </View>
                 </View>
-                <TouchableHighlight
-                    underlayColor={Colors.red1}
-                    activeOpacity={0.5}
-                    style={styles.jobDetail_button}
-                    onPress={() => this.props.navigation.navigate('Home')}
-                    accessibilityLabel="Update info"
-                >
-                    <Text style={styles.jobDetail_buttonText}>
-                        Revise
-                    </Text>
-                </TouchableHighlight>
+                <View style={styles.jobDetail_buttons}>
+                    <TouchableHighlight
+                        underlayColor={Colors.red1}
+                        activeOpacity={0.5}
+                        style={[styles.jobDetail_button, { borderRightWidth: 2.5 }]}
+                        onPress={() => JobDetail.unsupported()}
+                        accessibilityLabel="Update info"
+                    >
+                        <Text style={styles.jobDetail_buttonText}>
+                            Edit
+                        </Text>
+                    </TouchableHighlight>
+                    <TouchableHighlight
+                        underlayColor={Colors.red2}
+                        activeOpacity={0.5}
+                        style={[styles.jobDetail_deleteButton, { borderLeftWidth: 2.5 }]}
+                        onPress={() => this.handleDelete(job)}
+                        accessibilityLabel="Update info"
+                    >
+                        <Text style={styles.jobDetail_buttonText}>
+                            Delete
+                        </Text>
+                    </TouchableHighlight>
+                </View>
             </View>
         );
     }
@@ -89,15 +150,27 @@ const styles = StyleSheet.create({
         padding: 20,
         justifyContent: 'center',
     },
+    jobDetail_buttons: {
+        flexDirection: 'row',
+    },
     jobDetail_button: {
+        flex: 1,
         backgroundColor: Colors.red1,
-        width: Layout.window.width,
         height: 60,
+        borderWidth: 5,
+        borderColor: Colors.white1,
+    },
+    jobDetail_deleteButton: {
+        flex: 1,
+        backgroundColor: Colors.red2,
+        height: 60,
+        borderWidth: 5,
+        borderColor: Colors.white1,
     },
     jobDetail_buttonText: {
         textAlign: 'center',
         color: Colors.white1,
-        lineHeight: 60,
+        lineHeight: 50,
         fontFamily: 'os bold',
         fontSize: 16,
     },
@@ -168,6 +241,12 @@ const styles = StyleSheet.create({
     jobDetail_cellText: {
         fontSize: 16,
         fontFamily: 'os bold',
+    },
+    back: {
+        fontSize: 30,
+        marginTop: 5,
+        color: Colors.white1,
+        marginRight: 20,
     },
 });
 

@@ -8,6 +8,7 @@ import {
     Image,
     ScrollView,
     Text,
+    ActivityIndicator,
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
@@ -97,7 +98,14 @@ export default class JobList extends Component {
                     }
                 />
                 <ScrollView style={{ paddingTop: 2, minHeight: '100%' }}>
-                    {this.state.jobs.map((job, key) => this.getJobListItem(job, key))}
+                    {this.state.jobs.length > 0 ?
+                        this.state.jobs.map((job, key) => this.getJobListItem(job, key)) :
+                        <ActivityIndicator
+                            color={Colors.red1}
+                            size="large"
+                            style={{ marginTop: 100 }}
+                        />
+                    }
                 </ScrollView>
             </View>
         );

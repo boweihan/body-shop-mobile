@@ -7,6 +7,7 @@ import {
     TouchableHighlight,
     Text,
 } from 'react-native';
+import { Feather } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
 import NavBar from '../components/NavBar';
@@ -15,7 +16,22 @@ export default class BidDetail extends Component {
     render() {
         return (
             <View style={styles.bidDetail}>
-                <NavBar title="Bid Detail" navigation={this.props.navigation} />
+                <NavBar
+                    title="Bid Detail"
+                    navigation={this.props.navigation}
+                    rightButton={
+                        <TouchableHighlight
+                            underlayColor={Colors.red1}
+                            activeOpacity={0.5}
+                            onPress={() => this.props.navigation.navigate('JobList')}
+                        >
+                            <Feather
+                                name="chevrons-left"
+                                style={styles.back}
+                            />
+                        </TouchableHighlight>
+                    }
+                />
                 <View style={styles.bidDetail_images}>
                     
                 </View>
@@ -33,7 +49,7 @@ export default class BidDetail extends Component {
                     accessibilityLabel="accept the bid and begin process"
                 >
                     <Text style={styles.bidDetail_buttonText}>
-                        PROCEED WITH BID
+                        Accept Bid
                     </Text>
                 </TouchableHighlight>
             </View>
@@ -60,12 +76,21 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.red1,
         width: '100%',
         height: 60,
+        borderWidth: 5,
+        borderColor: Colors.white1,
     },
     bidDetail_buttonText: {
         textAlign: 'center',
         color: Colors.white1,
-        fontWeight: '600',
-        lineHeight: 60,
+        lineHeight: 50,
+        fontFamily: 'os bold',
+        fontSize: 16,
+    },
+    back: {
+        fontSize: 30,
+        marginTop: 5,
+        color: Colors.white1,
+        marginRight: 20,
     },
 });
 

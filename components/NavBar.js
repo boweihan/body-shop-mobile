@@ -76,7 +76,13 @@ class NavBar extends React.Component {
                                 <Text style={[styles.modal_item_text, { fontSize: 14 }]}>Logout</Text>
                             </TouchableHighlight>
                         </View>
-                        <View style={{ flex: 1, backgroundColor: Colors.black2, opacity: 0.5 }} />
+                        <TouchableHighlight
+                            underlayColor={Colors.black2}
+                            onPress={() => this.setState({ visible: !this.state.visible })}
+                            style={{ flex: 1, opacity: 0.5 }}
+                        >
+                            <View style={{ flex: 1, backgroundColor: Colors.black2, opacity: 0.5 }} />
+                        </TouchableHighlight>
                     </View>
                 </Modal>
             </View>
