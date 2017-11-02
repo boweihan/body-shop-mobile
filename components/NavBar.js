@@ -48,21 +48,35 @@ class NavBar extends React.Component {
                 <Modal
                     visible={this.state.visible}
                     onRequestClose={() => {}}
-                    animationType="slide"
+                    animationType="fade"
+                    transparent={true} // eslint-disable-line
                 >
-                    <View style={styles.modal}>
-                        <TouchableHighlight style={styles.modal_item} onPress={() => this._navigate('Home')}>
-                            <Text style={styles.modal_item_text}>HOME</Text>
-                        </TouchableHighlight>
-                        <TouchableHighlight style={styles.modal_item} onPress={() => this._navigate('JobList')}>
-                            <Text style={styles.modal_item_text}>JOBS</Text>
-                        </TouchableHighlight>
-                        <TouchableHighlight style={styles.modal_item} onPress={() => this._navigate('Home')}>
-                            <Text style={styles.modal_item_text}>LOGOUT</Text>
-                        </TouchableHighlight>
-                        <TouchableHighlight style={styles.cancel} onPress={() => this.setState({ visible: !this.state.visible })}>
-                            <Text style={styles.cancel_text}>CANCEL</Text>
-                        </TouchableHighlight>
+                    <View style={{ flex: 1, flexDirection: 'row' }}>
+                        <View style={styles.modal}>
+                            <TouchableHighlight
+                                underlayColor={Colors.red1}
+                                style={styles.cancel}
+                                onPress={() => this.setState({ visible: !this.state.visible })}
+                            >
+                                <Feather
+                                    name="x"
+                                    style={styles.hamburger}
+                                />
+                            </TouchableHighlight>
+                            <TouchableHighlight underlayColor={Colors.red1} style={styles.modal_item} onPress={() => this._navigate('Upload')}>
+                                <Text style={styles.modal_item_text}>Post a Job</Text>
+                            </TouchableHighlight>
+                            <TouchableHighlight underlayColor={Colors.red1} style={styles.modal_item} onPress={() => this._navigate('JobList')}>
+                                <Text style={styles.modal_item_text}>My Jobs</Text>
+                            </TouchableHighlight>
+                            <TouchableHighlight underlayColor={Colors.red1} style={styles.modal_item} onPress={() => this._navigate('Home')}>
+                                <Text style={styles.modal_item_text}>My Profile</Text>
+                            </TouchableHighlight>
+                            <TouchableHighlight underlayColor={Colors.red1} style={styles.modal_item} onPress={() => this._navigate('Home')}>
+                                <Text style={[styles.modal_item_text, { fontSize: 14 }]}>Logout</Text>
+                            </TouchableHighlight>
+                        </View>
+                        <View style={{ flex: 1, backgroundColor: Colors.black2, opacity: 0.5 }} />
                     </View>
                 </Modal>
             </View>
@@ -75,21 +89,21 @@ const styles = {
         backgroundColor: Colors.red1,
     },
     modal: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        flex: 3,
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        backgroundColor: Colors.red1,
     },
     modal_item: {
         height: 60,
-        width: Layout.window.width - 10,
-        backgroundColor: Colors.red1,
-        margin: 5,
+        width: Layout.window.width * 0.7,
+        borderBottomWidth: 1,
+        borderBottomColor: Colors.white1,
     },
     cancel: {
         height: 40,
-        width: Layout.window.width - 10,
-        backgroundColor: Colors.black1,
-        margin: 5,
+        marginTop: 20,
+        alignSelf: 'flex-start',
     },
     cancel_text: {
         color: Colors.white1,
@@ -100,10 +114,10 @@ const styles = {
     },
     modal_item_text: {
         color: Colors.white1,
-        textAlign: 'center',
+        marginLeft: 20,
         lineHeight: 60,
         fontSize: 16,
-        fontFamily: 'os extra bold',
+        fontFamily: 'os bold',
     },
     hamburger: {
         fontSize: 30,
