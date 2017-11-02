@@ -256,7 +256,8 @@ const styles = StyleSheet.create({
     },
     uploadForm_form_cellText: {
         flex: 1,
-        padding: 30,
+        paddingLeft: 30,
+        paddingRight: 30,
         borderBottomWidth: 1,
         borderRightWidth: 1,
         borderColor: Colors.gray2,
