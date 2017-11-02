@@ -44,10 +44,9 @@ export default class Login extends Component {
                     onPress={this.login}
                     accessibilityLabel="Login Button"
                 >
-                    <MaterialCommunityIcons
-                        name="car-estate"
-                        style={styles.login_icon}
-                    />
+                    <Text style={styles.login_text}>
+                        Begin Demo
+                    </Text>
                 </TouchableHighlight>
                 <View style={styles.outerCircle1} />
                 <View style={styles.outerCircle2} />
@@ -91,9 +90,10 @@ const styles = StyleSheet.create({
         zIndex: 1,
         opacity: 0.2,
     },
-    login_icon: {
-        fontSize: 50,
+    login_text: {
+        fontSize: 30,
         color: Colors.red1,
+        fontFamily: 'os extra bold',
     },
 });
 

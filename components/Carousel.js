@@ -26,6 +26,7 @@ export default class Carousel extends React.Component {
                                 style={styles.image}
                                 source={{ uri: `data:image/jpg;base64, ${image}` }}
                             >
+                                {this.props.children}
                                 <MaterialCommunityIcons
                                     name="dots-horizontal"
                                     style={styles.bars}
@@ -43,11 +44,11 @@ export default class Carousel extends React.Component {
 
 const styles = StyleSheet.create({
     scrollContainer: {
-        height: Layout.window.height * 0.3,
+        height: '100%',
     },
     image: {
         width: Layout.window.width,
-        height: Layout.window.height * 0.3,
+        height: '100%',
         justifyContent: 'flex-end',
     },
     bars: {
@@ -61,4 +62,5 @@ const styles = StyleSheet.create({
 
 Carousel.propTypes = {
     images: PropTypes.array.isRequired,
+    children: PropTypes.object,
 };

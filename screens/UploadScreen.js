@@ -13,6 +13,7 @@ import { Permissions, ImagePicker } from 'expo';
 import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
 import NavBar from '../components/NavBar';
+import Carousel from '../components/Carousel';
 
 export default class UploadForm extends Component {
     state = {
@@ -96,25 +97,39 @@ export default class UploadForm extends Component {
                 <NavBar title="Post Job" navigation={this.props.navigation} />
                 <View style={styles.uploadForm_images}>
                     <View style={{ flex: 1 }} />
-                    <View style={styles.uploadForm_image}>
-                        {hasCameraPermission ?
+                    {this.state.pictures.length > 0 ?
+                        <Carousel style={{ flex: 1 }} images={this.state.pictures}>
                             <TouchableHighlight
-                                underlayColor={Colors.red1}
+                                underlayColor="transparent"
                                 activeOpacity={0.5}
                                 onPress={() => this._pickImage()}
                             >
                                 <FontAwesome
-                                    name="camera"
-                                    style={styles.camera}
+                                    name="plus"
+                                    style={styles.smallCamera}
                                 />
                             </TouchableHighlight>
-                            :
-                            <FontAwesome
-                                name="remove"
-                                style={styles.camera}
-                            />
-                        }
-                    </View>
+                        </Carousel> :
+                        <View style={styles.uploadForm_image}>
+                            {hasCameraPermission && this.state.pictures.length < 1 ?
+                                <TouchableHighlight
+                                    underlayColor="transparent"
+                                    activeOpacity={0.5}
+                                    onPress={() => this._pickImage()}
+                                >
+                                    <FontAwesome
+                                        name="camera"
+                                        style={styles.camera}
+                                    />
+                                </TouchableHighlight>
+                                :
+                                <FontAwesome
+                                    name="remove"
+                                    style={styles.camera}
+                                />
+                            }
+                        </View>
+                    }
                     <View style={{ flex: 1 }} />
                 </View>
                 <View style={styles.uploadForm_form}>
@@ -209,6 +224,13 @@ const styles = StyleSheet.create({
     camera: {
         color: Colors.red1,
         fontSize: 40,
+    },
+    smallCamera: {
+        color: Colors.white1,
+        backgroundColor: 'transparent',
+        alignSelf: 'flex-end',
+        fontSize: 30,
+        marginRight: 10,
     },
     uploadForm_form: {
         flex: 2,

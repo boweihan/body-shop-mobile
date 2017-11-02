@@ -1,5 +1,7 @@
 /* For consistency, all colors should go in this file */
-const red1 = '#CA2945';
+// const red1 = '#CA2945';
+const red1 = 'black'; // This is the theme of the app
+
 const white1 = 'white';
 const gray1 = 'gray';
 const gray2 = '#f2f2f2';

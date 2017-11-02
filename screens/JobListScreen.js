@@ -55,7 +55,19 @@ export default class JobList extends Component {
                                 <View style={{ flex: 1 }} />{/* placeholder */}
                                 <Text style={[{ flex: 2 }, styles.text1]}>{`${job.firstName} ${job.lastName}`}</Text>
                                 <Text style={[{ flex: 2 }, styles.text2]}>{`${job.year} ${job.make} ${job.model}`}</Text>
-                                <Text style={[{ flex: 2 }, styles.text3]}>{`Bids: 3`}</Text>
+                                <View style={{ flex: 2, flexDirection: 'row' }}>
+                                    <TouchableHighlight
+                                        underlayColor={Colors.black1}
+                                        activeOpacity={0.5}
+                                        style={styles.jobList_bidButton}
+                                        onPress={() => this.props.navigation.navigate('BidDetail')}
+                                        accessibilityLabel="View bids for job item"
+                                    >
+                                        <Text style={styles.jobList_bidButton_text}>
+                                            View Bids (3)
+                                        </Text>
+                                    </TouchableHighlight>
+                                </View>
                                 <View style={{ flex: 1 }} />{/* placeholder */}
                             </View>
                         </View>
@@ -132,6 +144,18 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-end',
         fontFamily: 'os bold',
         color: Colors.red1,
+        padding: 5,
+    },
+    jobList_bidButton: {
+        flex: 1,
+        alignSelf: 'flex-end',
+    },
+    jobList_bidButton_text: {
+        fontFamily: 'os bold',
+        color: Colors.white1,
+        backgroundColor: Colors.black2,
+        textAlign: 'center',
+        padding: 5,
     },
 });
 

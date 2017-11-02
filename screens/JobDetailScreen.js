@@ -38,17 +38,17 @@ export default class JobDetail extends Component {
                             <Text style={styles.jobDetail_cellText}>Model</Text>
                         </View>
                         <View style={styles.jobDetail_cellBox2}>
-                            <Text style={[styles.jobDetail_cellText, { color: Colors.red1 }]}>{job.model}</Text>
+                            <Text style={[styles.jobDetail_cellText, { color: Colors.red1, opacity: 0.7 }]}>{job.model}</Text>
                         </View>
                     </View>
                     <View style={styles.jobDetail_cell}>
                         <View style={styles.jobDetail_cellBox3}>
                             <Text style={styles.jobDetail_cellText}>Make</Text>
-                            <Text style={[styles.jobDetail_cellText, { color: Colors.red1 }]}>{job.make}</Text>
+                            <Text style={[styles.jobDetail_cellText, { color: Colors.red1, opacity: 0.7 }]}>{job.make}</Text>
                         </View>
                         <View style={styles.jobDetail_cellBox4}>
                             <Text style={styles.jobDetail_cellText}>Year</Text>
-                            <Text style={[styles.jobDetail_cellText, { color: Colors.red1 }]}>{job.year}</Text>
+                            <Text style={[styles.jobDetail_cellText, { color: Colors.red1, opacity: 0.7 }]}>{job.year}</Text>
                         </View>
                     </View>
                 </View>
