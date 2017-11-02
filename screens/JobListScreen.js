@@ -41,7 +41,7 @@ export default class JobList extends Component {
                         underlayColor={Colors.black1}
                         activeOpacity={0.5}
                         style={styles.jobList_item_top}
-                        onPress={() => this.props.navigation.navigate('JobDetail')}
+                        onPress={() => this.props.navigation.navigate('JobDetail', { job })}
                         accessibilityLabel="View job details"
                     >
                         <View style={styles.jobList_item_inner}>
